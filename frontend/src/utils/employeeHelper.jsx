@@ -96,8 +96,11 @@ import { Navigate, useNavigate } from "react-router-dom";
           >
             Edit
           </button>
-          <button   className="bg-yellow-500 hover:bg-yellow-600 text-white px-2 py-1 rounded text-sm">
+          <button   className="bg-yellow-500 hover:bg-yellow-600 text-white px-2 py-1 rounded text-sm"
+          onClick={()=>navigate(`/admin-dashboard/employee/salary/${id}`)}
+          >
             Salary
+            
           </button>
           <button   className="bg-red-500 hover:bg-red-600 text-white px-2 py-1 rounded text-sm">
             Leave

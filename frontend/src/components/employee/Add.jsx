@@ -11,7 +11,7 @@ const Add = () => {
   useEffect(()=>{
     const getDepartments=async()=>{
       let data=await fetchDepartment()
-      console.log(data)
+       
       setDepartment(data)
     }
     getDepartments()
@@ -28,39 +28,6 @@ const Add = () => {
      }
   }
 
-  const validate = (data) => {
-    const errors = {}
-
-    if (!data.name || data.name.trim().length < 2) errors.name = "Name is required (min 2 chars)"
-    if (!data.email || !/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/.test(data.email)) errors.email = "Valid email is required"
-    if (!data.employeeId) errors.employeeId = "Employee ID is required"
-    if (!data.dob){
-       errors.dob = "Date of Birth is required"
-    }else {
-      const dobDate = new Date(data.dob);
-      const today = new Date();
-
-      const minAllowedDob = new Date(
-        today.getFullYear() - 18,
-        today.getMonth(),
-        today.getDate()
-      );
-
-      if (dobDate > minAllowedDob) {
-        errors.dob = "You must be at least 18 years old";
-      }
-    }
-    if (!data.gender) errors.gender = "Gender is required"
-    if (!data.maritalStatus) errors.maritalStatus = "Marital status is required"
-    if (!data.designation) errors.designation = "Designation is required"
-    if (!data.department) errors.department = "Department is required"
-    if (!data.salary || isNaN(data.salary) || Number(data.salary) <= 0) errors.salary = "Valid salary is required"
-    if (!data.password || data.password.length < 6) errors.password = "Password must be at least 6 characters"
-    if (!data.role) errors.role = "Role is required"
-    if (!data.image) errors.image = "Image is required"
-
-   return errors
-  }
 
   const handleSubmit=async(e)=>{
     e.preventDefault()
@@ -98,6 +65,43 @@ const Add = () => {
     //   setLoading(false)
     // }
   }
+
+
+  const validate = (data) => {
+    const errors = {}
+
+    if (!data.name || data.name.trim().length < 2) errors.name = "Name is required (min 2 chars)"
+    if (!data.email || !/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/.test(data.email)) errors.email = "Valid email is required"
+    if (!data.employeeId) errors.employeeId = "Employee ID is required"
+    if (!data.dob){
+       errors.dob = "Date of Birth is required"
+    }else {
+      const dobDate = new Date(data.dob);
+      const today = new Date();
+
+      const minAllowedDob = new Date(
+        today.getFullYear() - 18,
+        today.getMonth(),
+        today.getDate()
+      );
+
+      if (dobDate > minAllowedDob) {
+        errors.dob = "You must be at least 18 years old";
+      }
+    }
+    if (!data.gender) errors.gender = "Gender is required"
+    if (!data.maritalStatus) errors.maritalStatus = "Marital status is required"
+    if (!data.designation) errors.designation = "Designation is required"
+    if (!data.department) errors.department = "Department is required"
+    if (!data.salary || isNaN(data.salary) || Number(data.salary) <= 0) errors.salary = "Valid salary is required"
+    if (!data.password || data.password.length < 6) errors.password = "Password must be at least 6 characters"
+    if (!data.role) errors.role = "Role is required"
+    if (!data.image) errors.image = "Image is required"
+
+   return errors
+  }
+
+
   return (
     <div >
        

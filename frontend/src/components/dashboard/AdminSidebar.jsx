@@ -68,6 +68,9 @@
 
 
 // export default AdminSidebar
+
+
+
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import {
@@ -82,8 +85,8 @@ const menuItems = [
   { name: 'Dashboard', path: '/admin-dashboard', icon: <FaTachometerAlt /> },
   { name: 'Employees', path: '/admin-dashboard/employee', icon: <FaUsers /> },
   { name: 'Departments', path: '/admin-dashboard/departments', icon: <FaBuilding /> },
-  { name: 'Leave', path: '/leaves', icon: <FaBuilding /> },
-  { name: 'Salary', path: '/salary', icon: <FaMoneyBill /> },
+  { name: 'Leave', path: '/admin-dashboard/leave', icon: <FaBuilding /> },
+  { name: 'Salary', path: '/admin-dashboard/salary', icon: <FaMoneyBill /> },
   { name: 'Settings', path: '/settings', icon: <FaCog /> },
 ];
 

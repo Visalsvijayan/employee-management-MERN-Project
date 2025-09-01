@@ -10,6 +10,10 @@ import { fileURLToPath } from 'url';
 import errorHandler from './middleware/errorHandler.js'
 import departmentRouter from './routes/departments.js'
 import employeeRouter from './routes/employee.js'
+import salaryRouter from './routes/salary.js'
+import leaveRouter from './routes/leave.js'
+import settingsRouter from './routes/settings.js'
+
 const __dirname = dirname(fileURLToPath(import.meta.url));
 config({ path: `${__dirname}/.env` }); // Explicitly point to server/.env
 
@@ -24,6 +28,9 @@ app.use('/uploads', express.static(path.join(__dirname, 'public/uploads')));
 app.use('/api/auth',authRoutes)
 app.use('/api/department',departmentRouter)
 app.use('/api/employee',employeeRouter)
+app.use('/api/salary',salaryRouter)
+app.use('/api/leave',leaveRouter)
+app.use('/api/settings',settingsRouter)
 app.use(errorHandler);
 
 

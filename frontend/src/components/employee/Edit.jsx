@@ -24,7 +24,7 @@ const Edit = () => {
   useEffect(()=>{
       const getDepartments=async()=>{
         let data=await fetchDepartment()
-        console.log(data)
+        
         setDepartment(data)
       }
       getDepartments()

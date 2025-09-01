@@ -87,6 +87,9 @@ const getEmployees=async(req,res,next)=>{
 const viewEmployee=async(req,res,next)=>{
     try {
         const {id}=req.params
+     
+        // const{userId}=req.params
+        
         const employee=await Employee.findById(id)
             .populate({
                 path:'userId',
@@ -94,8 +97,8 @@ const viewEmployee=async(req,res,next)=>{
             })
             .populate('department')
          
-    
-          res.status(200).json({
+         
+         return res.status(200).json({
             success:true,
             data:{
                 image:employee.userId.profileImage,
@@ -114,7 +117,26 @@ const viewEmployee=async(req,res,next)=>{
         }) 
 
     } catch (error) {
+        console.log(error)
         return next(createError('Employees viewpage server error',500))
+    }
+}
+
+const viewUSer=async(req,res,next)=>{
+    try {
+        const {userId}=req.query
+         const user=await Employee.find({userId:userId}).populate('department')
+         
+         return res.status(200).json({success:true,data:{
+                employeeId:user[0].employeeId,
+                department:user[0].department.dep_name,
+                dob:user[0].dob.toLocaleDateString(),
+                gender:user[0].gender,
+                maritalStatus:user[0].maritalStatus
+         }})
+    } catch (error) {
+        
+         return next(createError('User viewpage server error',500))
     }
 }
 
@@ -122,7 +144,7 @@ const editEmployee=async(req,res,next)=>{
     try {
         const {id}=req.params
         const {name,dob,maritalStatus,designation,departmentId,salary}=req.body;
-        console.log(req.body)
+        
         const employee=await Employee.findById(id)
         if(!employee){
             return res.status(404).json({success:false,message:'Employee not found'})
@@ -154,5 +176,6 @@ export {
     upload,
     getEmployees,
     viewEmployee,
-    editEmployee
+    editEmployee,
+    viewUSer
 }
