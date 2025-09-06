@@ -3,14 +3,19 @@ import { useEffect,useState } from 'react'
 import { Link } from 'react-router-dom'
 import API from '../../services/api'
 import { useAuth } from '../../context/AuthContext'
-const Leaves = () => {
+import { useParams } from 'react-router-dom'
+const Leaves = () => {              
     const [leave,setLeave]=useState([])
     const {user}=useAuth()
+    const [filter,setFilter]=useState([])
+ 
+  const { id:empId } = useParams()     //this makes page available from admin side also
+  const finalId = user.role === 'admin' ? empId : user._id
 
     useEffect(()=>{
         const fetchLeave=async()=>{
             try {
-                const response=await API.get(`/leave/${user._id}`,{
+                const response=await API.get(`/leave/${finalId}`,{
                     headers:{
                         authorization:`Bearer ${localStorage.getItem('token')}`
                     }
@@ -30,21 +35,34 @@ const Leaves = () => {
                     })
 
                     setLeave(prepareData)
+                    setFilter(prepareData)
                 }
 
             } catch (error) {
-                
+                alert('something went wrong')
             }
         }
         fetchLeave()
     },[])
+    
+    const inputFilter=(e)=>{
+        const value=e.target.value.toLowerCase()
+        const data=leave.filter((lev)=>lev.status.toLowerCase().includes(value))
+        setFilter(data)
+    }
   return (
     <div className='w-full min-h-[calc(100vh-56px)] bg-gray-300'>
         <h1 className='text-3xl font-semibold text-center'>Manage Leaves</h1>
         <div className=' flex justify-between p-4'>
-            <input type="text" placeholder='Search By Status'className='p-2 border border-gray text-center rounded'  />
+            <input
+             type="text"
+             onChange={inputFilter}
+              placeholder='Search By Status'
+              className='p-2 border border-gray text-center rounded'
+            />
+            {user.role==='employee'&&
              <Link to='/employee-dashboard/add-leave'  className='py-2 px-9 bg-teal-600 rounded text-white'>Add Leave</Link>
-
+            }
         </div>
          
 
@@ -64,7 +82,7 @@ const Leaves = () => {
             </thead>
             <tbody>
                 {
-                    leave.map((l,i)=>(
+                    filter.map((l,i)=>(
                         <tr key={i}className="border-b">
                             <td className="px-4 py-3">{l.sno}</td>
                             <td className="px-4 py-3">{l.leaveType}</td>

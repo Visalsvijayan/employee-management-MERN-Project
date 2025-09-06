@@ -24,7 +24,7 @@ const Settings = () => {
                 setError('Password error')
                 return
             }
-            if(form.length!==3) {
+            if(!form.newPassword||!form.oldPassword||!form.confirmPassword) {
                 setError('All feild required')
                 return
             }    
@@ -81,7 +81,7 @@ const Settings = () => {
                         onClick={() => setShowPassword((prev) => ({ ...prev, old: !prev.old }))}
                         className="absolute right-2 top-9 text-gray-500"
                     >
-                        {showPassword.old ? <EyeOff size={18} /> : <Eye size={18} />}
+                        {showPassword.old ? <Eye size={18} /> : <EyeOff size={18} />}
                     </button>
                 </div>
                 <div className='relative'> 

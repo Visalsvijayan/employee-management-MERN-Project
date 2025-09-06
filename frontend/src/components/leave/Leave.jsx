@@ -5,6 +5,7 @@ import API from '../../services/api'
 import { useNavigate } from 'react-router-dom'
 const Leave = () => {
   const [data,setData]=useState([])
+  const [filterButton,setFilterButton]=useState([])
   const [error,setError]=useState('')
   const navigate=useNavigate()
     const columns=[
@@ -53,6 +54,7 @@ const Leave = () => {
               }
              })
              setData(prepareData)
+             setFilterButton(prepareData)
           }
           
         } catch (error) {
@@ -61,15 +63,29 @@ const Leave = () => {
       }
       fetchTableData()
     },[])
+
+    const filterStatus=(status)=>{
+       const filter= data.filter((leav)=>leav.status.includes(status))
+       setFilterButton(filter)
+    }
+     
+    const filterByInput = (e) => {
+    const value = e.target.value.toLowerCase()
+    const filter = data.filter((leav) =>
+      leav.employeeId.toLowerCase().includes(value)
+    )
+    setFilterButton(filter)
+  }
   return (
     <div className='w-full min-h-[calc(100vh-56px)] bg-gray-200'>
         <h2 className='text-3xl font-semibold text-center p-2'>Manage Leaves</h2>
       <div className=' flex flex-col md:flex-row md:justify-between md:items-center gap-3 p-4"'>
-        <input type="text"className=' border border-gray-300 py-1 px-4 m-2' />
+        <input type="text" onChange={filterByInput}
+         placeholder='Employee Id'className=' border border-gray-300 py-1 px-4 m-2' />
         <div className='flex justify-center space-x-2 mr-2'>
-            <button className='bg-teal-600 text-white px-2 py-1 rounded'>Pending</button>
-            <button className='bg-teal-600 text-white px-2 py-1 rounded'>Approved</button>
-            <button className='bg-teal-600 text-white px-2 py-1 rounded'>Rejected</button>
+            <button onClick={()=>filterStatus('Pending')}className='bg-teal-600 text-white px-2 py-1 rounded'>Pending</button>
+            <button onClick={()=>filterStatus('Rejected')} className='bg-teal-600 text-white px-2 py-1 rounded'>Approved</button>
+            <button onClick={()=>filterStatus('Approved')}className='bg-teal-600 text-white px-2 py-1 rounded'>Rejected</button>
 
         </div>
       </div>
@@ -77,7 +93,7 @@ const Leave = () => {
         {error&&<span className='text-red-700'>{error}</span>}
         <DataTable
           columns={columns}
-          data={data}
+          data={filterButton}
           pagination
 
         />

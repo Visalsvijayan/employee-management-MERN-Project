@@ -22,8 +22,9 @@ const addLeave=async(req,res,next)=>{
 
 const listLeave=async(req,res,next)=>{
   try {
-    const {userId}=req.params
-    const employee=await Employee.findOne({userId:userId})
+    const {id}=req.params
+    
+    const employee=await Employee.findOne({userId:id}) || await Employee.findById(id)
     const data=await Leave.find({employeeId:employee._id})
     res.status(200).json({success:true,data})
   } catch (error) {
@@ -69,8 +70,9 @@ const adminLeaveView=async(req,res,next)=>{
     endDate:leaves.endDate,
     status:leaves.status,
     image:leaves.employeeId.userId.profileImage,
+    id:leaves._id
   }
-  console.log(data)
+
   return res.status(200).json({success:true,data})
 
 
@@ -78,9 +80,23 @@ const adminLeaveView=async(req,res,next)=>{
      return next(createError( 'Internal Server Error' ||error.message, 500))
   }
 }
+const changeLeaveStatus=async(req,res,next)=>{
+  try {
+    const {status}=req.body;
+    const {id}=req.params
+    const update=await Leave.findByIdAndUpdate(id,{$set:{status:status}},{new:true})
+    if(!update){
+      res.status(400).json({success:false,message:'update failed'})
+    }
+    res.status(200).json({ success: true, data: update});
+  } catch (error) {
+     return next(createError(  error.message, 500))
+  }
+}
 export{
     addLeave,
     listLeave,
     adminLeaveManagement,
-    adminLeaveView
+    adminLeaveView,
+    changeLeaveStatus
 }

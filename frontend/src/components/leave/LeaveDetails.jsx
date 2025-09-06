@@ -1,11 +1,13 @@
  import React, { useState,useEffect } from 'react'
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import API from '../../services/api';
+import Swal from 'sweetalert2'
 const LeaveDetails = () => {
   const {id}=useParams()
   const [employee,setEmployee]=useState('')
   const [error,setError]=useState('')
   const [loading,setLoading]=useState(true)
+  const navigate=useNavigate()
    
    useEffect(() => {
      const fetchLeaveDetails=async()=>{
@@ -29,6 +31,28 @@ const LeaveDetails = () => {
      }
      fetchLeaveDetails()
   }, [id])
+
+  const changeStatus=async(id,status)=>{
+    try {
+      const res=await API.put(`/leave/view/${id}`,{status},{
+        headers:{
+          authorization:`Bearer ${localStorage.getItem('token')}`
+        }
+      })
+      if(res.data.success){
+        Swal.fire({
+          icon:'success',
+          succes:true,
+          title:'Status updated successfully'
+        })
+        .then(()=>navigate('/admin-dashboard/leave'))
+      }
+      
+
+    } catch (error) {
+      alert('failed to update status')
+    }
+  }
 
   if (loading) {
     return (
@@ -80,9 +104,19 @@ const LeaveDetails = () => {
           <p className="text-md">
             <strong>End Date:</strong> {employee.endDate ?new Date(employee.endDate).toLocaleDateString() : ''}
           </p>
-          <p className="text-md">
-            <strong>Status:</strong> {employee.status}
-          </p>
+          <div className='flex'>
+              <p className="text-md">
+              {/* <strong>Status:</strong> {employee.status} */}
+              {employee.status==='Pending'? <strong>Action:</strong> : <strong>Status:</strong>} 
+            </p>
+            {employee.status==='Pending'?(
+              <div className='flex space-x-2'>
+                <button onClick={()=>changeStatus(employee.id,'Rejected')} className='px-4 py-1 bg-red-600 rounded text-white'>Reject</button>
+                <button onClick={()=>changeStatus(employee.id,'Approved')} className='px-4 py-1 bg-green-600 rounded text-white'>Approve</button>
+              </div>
+              ): <p>{employee.status}</p>
+            }
+          </div>
         </div>
       </div>
     </div>

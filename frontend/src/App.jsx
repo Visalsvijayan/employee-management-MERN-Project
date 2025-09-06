@@ -24,13 +24,14 @@ import UserSalary from './components/EmployeeDashboard/Salary'
 import Settings from './components/EmployeeDashboard/Settings'
 import LeaveAdmin from './components/leave/Leave'
 import LeaveDetails from './components/leave/LeaveDetails'
+import { useAuth } from './context/AuthContext'
  const App = () => {
-  
+  const {user}= useAuth()
    return (
       <BrowserRouter>
         <Routes>
-          <Route path='/' element={<Navigate to="/admin-dashboard"/>} > </Route>
-           {/* <Route
+          {/* <Route path='/' element={<Navigate to="/admin-dashboard"/>} > </Route> */}
+           <Route
           path="/"
           element={
             user ? (
@@ -43,7 +44,7 @@ import LeaveDetails from './components/leave/LeaveDetails'
               <Navigate to="/login" />
             )
           }
-        /> */}
+        />
           <Route path='/login' element={<Login/>}></Route>
           <Route path='/admin-dashboard' element={
             <PrivateRoute>
@@ -67,6 +68,8 @@ import LeaveDetails from './components/leave/LeaveDetails'
               <Route path='/admin-dashboard/employee/salary/:id' element={<ViewSalary/>}></Route>
               <Route path='/admin-dashboard/leave' element={<LeaveAdmin/>}></Route>
               <Route path='/admin-dashboard/leave/:id' element={<LeaveDetails/>}></Route>
+              <Route path='/admin-dashboard/employee/leave/:id' element={<Leaves/>}></Route>
+              <Route path='/admin-dashboard/settings' element={<Settings/>}></Route>
               
           </Route>
           <Route 

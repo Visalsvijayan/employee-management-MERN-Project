@@ -87,7 +87,7 @@ const menuItems = [
   { name: 'Departments', path: '/admin-dashboard/departments', icon: <FaBuilding /> },
   { name: 'Leave', path: '/admin-dashboard/leave', icon: <FaBuilding /> },
   { name: 'Salary', path: '/admin-dashboard/salary', icon: <FaMoneyBill /> },
-  { name: 'Settings', path: '/settings', icon: <FaCog /> },
+  { name: 'Settings', path: '/admin-dashboard/settings', icon: <FaCog /> },
 ];
 
 const AdminSidebar = () => {

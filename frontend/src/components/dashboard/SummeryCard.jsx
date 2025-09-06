@@ -1,6 +1,7 @@
-import React from 'react'
-
-const SummeryCard = ({icon,text,number,color}) => {
+import React, { useEffect } from 'react'
+import { useState } from 'react'
+const SummeryCard = ({ icon, text, number, color }) => {
+ 
   return (
     <div className='flex bg-white h-16'>
       <div className={`text-2xl ${color} p-4`}>

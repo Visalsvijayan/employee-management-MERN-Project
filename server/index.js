@@ -13,7 +13,7 @@ import employeeRouter from './routes/employee.js'
 import salaryRouter from './routes/salary.js'
 import leaveRouter from './routes/leave.js'
 import settingsRouter from './routes/settings.js'
-
+import dashboardRouter from './routes/dashboard.js'
 const __dirname = dirname(fileURLToPath(import.meta.url));
 config({ path: `${__dirname}/.env` }); // Explicitly point to server/.env
 
@@ -31,6 +31,7 @@ app.use('/api/employee',employeeRouter)
 app.use('/api/salary',salaryRouter)
 app.use('/api/leave',leaveRouter)
 app.use('/api/settings',settingsRouter)
+app.use('/api/dashboard',dashboardRouter)
 app.use(errorHandler);
 
 

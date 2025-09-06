@@ -67,7 +67,8 @@ const deleteDepartment=async(req,res,next)=>{
         if(!existing){
             return next(createError('Id not matching ,Something went wrong', 404))
         }
-        const deletedDep=await Department.findByIdAndDelete(id)
+        const deletedDep=await Department.findById(id)
+        await deletedDep.deleteOne()
         return res.status(200).json({success:true,deletedDep})
     } catch (error) {
         return next(createError('ServerError',500))

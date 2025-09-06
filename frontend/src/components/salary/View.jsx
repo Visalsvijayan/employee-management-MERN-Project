@@ -55,8 +55,9 @@ const View = () => {
                     })
                     setData(prepareData)
                 }
+                
             } catch (error) {
-                setError('fetching salary data failed')
+                setError('')
             }
         }
         fetchSalary()
